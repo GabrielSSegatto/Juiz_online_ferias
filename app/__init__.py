@@ -1,11 +1,25 @@
 from flask import Flask
+import os
+from app.service.database import db, migrate
+from app.controller.auth_controller import auth_bp  # blueprint auth
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASE_DIR, "database.db")
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config['SECRET_KEY'] = 'sua_chave_secreta_aqui'
 
-# Rota de teste
-@app.route("/")
-def home():
-    return "Servidor rodando! 🚀"
+    db.init_app(app)
+    migrate.init_app(app, db)
 
-# Importando controllers
-from app.controller import auth_controller, problem_controller, submission_controller
+    # importa models depois do db
+    from app.models import user, problem, submission
+
+    app.register_blueprint(auth_bp)
+
+    @app.route("/")
+    def home():
+        return "Servidor rodando com banco! 🚀"
+
+    return app
