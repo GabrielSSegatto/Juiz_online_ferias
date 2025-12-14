@@ -2,6 +2,7 @@ from flask import Flask, render_template
 import os
 from app.service.database import db, migrate
 from app.controller.auth_controller import auth_bp  # blueprint auth
+from app.controller.problem_controller import problem_bp
 
 def create_app():
     app = Flask(__name__)
@@ -16,6 +17,7 @@ def create_app():
     from app.models import user, problem, submission
 
     app.register_blueprint(auth_bp)
+    app.register_blueprint(problem_bp)
 
     @app.route("/")
     def home():

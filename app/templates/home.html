@@ -1,8 +1,86 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Início - Juiz Online{% endblock %}
 
 {% block content %}
-<h2>Página inicial</h2>
-<p>Bem-vindo ao projeto!</p>
+
+{% if session.get('username') %}
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="surface p-5 text-center">
+            <h1 class="display-5 fw-bold mb-3">
+                Bem-vindo de volta, {{ session.username }}!
+            </h1>
+            <p class="lead text-muted mb-4">
+                Pronto para resolver mais problemas hoje?
+            </p>
+
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="{{ url_for('problem.list_problems') }}" class="btn btn-primary btn-lg px-4">Ver Problemas</a>
+                <a href="#" class="btn btn-outline-light btn-lg px-4">Minhas submissões</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="surface p-4 text-center h-100">
+            <h3 class="fw-bold text-success">0</h3>
+            <p class="text-muted mb-0">Problemas Resolvidos</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="surface p-4 text-center h-100">
+            <h3 class="fw-bold text-warning">Iniciante</h3>
+            <p class="text-muted mb-0">Seu Rank Atual</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="surface p-4 text-center h-100">
+            <h3 class="fw-bold text-info">Python</h3>
+            <p class="text-muted mb-0">Linguagem Favorita</p>
+        </div>
+    </div>
+</div>
+
+{% else %}
+
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-4 fw-bold text-body">Domine a Lógica de Programação</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead text-muted mb-4">
+                O <strong>Juiz Online</strong> é a plataforma ideal para você praticar algoritmos, 
+                testar seus conhecimentos em Python e desafiar seus amigos.
+            </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4 gap-3">
+                    Criar Conta Grátis
+                </a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg px-4">
+                    Já tenho conta
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col">
+            <div class="surface p-4 h-100 border-0 shadow-sm">
+                <h4 class="text-warning">🚀 Rápido e Leve</h4>
+                <p class="text-muted">Executor de código otimizado para feedback instantâneo sobre suas soluções.</p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="surface p-4 h-100 border-0 shadow-sm">
+                <h4 class="text-warning">🏆 Ranking (Em breve)</h4>
+                <p class="text-muted">Suba de nível resolvendo problemas complexos e compare com seus amigos.</p>
+            </div>
+        </div>
+    </div>
+
+{% endif %}
+
 {% endblock %}
