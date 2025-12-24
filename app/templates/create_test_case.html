@@ -1,60 +1,73 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Criar Caso de Teste</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Criar Caso de Teste{% endblock %}
 
-    <h1>Criar Caso de Teste</h1>
+{% block content %}
 
-    {# mensagens flash #}
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul>
-          {% for category, message in messages %}
-            <li><strong>{{ category }}:</strong> {{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold mb-0">Criar Caso de Teste</h1>
+
+    <a href="{{ url_for('problem.get_problem_controller', id=problem_id) }}"
+       class="btn btn-outline-secondary">
+        ← Voltar ao problema
+    </a>
+</div>
+
+{# mensagens flash #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="surface p-4">
 
     <form method="POST">
 
-        <div>
-            <label for="input_data">Input do caso de teste:</label><br>
+        <div class="mb-4">
+            <label for="input_data" class="form-label fw-semibold">
+                Input do caso de teste
+            </label>
             <textarea
                 name="input_data"
                 id="input_data"
+                class="form-control"
                 rows="6"
-                cols="60"
+                placeholder="Digite exatamente o input que o programa vai receber"
                 required
             ></textarea>
         </div>
 
-        <br>
-
-        <div>
-            <label for="expected_output">Output esperado:</label><br>
+        <div class="mb-4">
+            <label for="expected_output" class="form-label fw-semibold">
+                Output esperado
+            </label>
             <textarea
                 name="expected_output"
                 id="expected_output"
+                class="form-control"
                 rows="6"
-                cols="60"
+                placeholder="Digite exatamente o output esperado"
                 required
             ></textarea>
         </div>
 
-        <br>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                Criar caso de teste
+            </button>
 
-        <button type="submit">Criar caso de teste</button>
+            <a href="{{ url_for('problem.get_problem_controller', id=problem_id) }}"
+               class="btn btn-outline-secondary">
+                Cancelar
+            </a>
+        </div>
+
     </form>
+</div>
 
-    <br>
-
-    <a href="{{ url_for('problem.get_problem_controller', id=problem_id) }}">
-        Voltar para o problema
-    </a>
-
-</body>
-</html>
+{% endblock %}

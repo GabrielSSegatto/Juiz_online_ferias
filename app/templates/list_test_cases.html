@@ -1,35 +1,74 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Casos de Teste</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Casos de Teste{% endblock %}
 
-    <h1>Casos de teste – {{ problem.name }}</h1>
+{% block content %}
 
-    <a href="{{ url_for('test_case.create_test_case_controller', problem_id=problem.id) }}">
-        Criar novo caso de teste
-    </a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold mb-0">
+        Casos de Teste – {{ problem.name }}
+    </h1>
 
-    <hr>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('problem.get_problem_controller', id=problem.id) }}"
+           class="btn btn-outline-secondary">
+            ← Voltar ao problema
+        </a>
 
-    {% if test_cases %}
-        <ul>
-            {% for tc in test_cases %}
-                <li>
-                    <strong>Input:</strong>
-                    <pre>{{ tc.input }}</pre>
+        {% if session.get('username') %}
+            <a href="{{ url_for('test_case.create_test_case_controller', problem_id=problem.id) }}"
+               class="btn btn-outline-primary">
+                + Novo caso de teste
+            </a>
+        {% endif %}
+    </div>
+</div>
 
-                    <strong>Output esperado:</strong>
-                    <pre>{{ tc.expected_output }}</pre>
-                </li>
-                <hr>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Nenhum caso de teste cadastrado para este problema.</p>
-    {% endif %}
+{# mensagens flash #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
-</body>
-</html>
+{% if test_cases %}
+    <div class="row g-4">
+        {% for tc in test_cases %}
+            <div class="col-12">
+                <div class="surface p-4">
+
+                    <div class="mb-3">
+                        <span class="badge bg-secondary mb-2">
+                            Caso {{ loop.index }}
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="fw-semibold mb-1">Input</h6>
+                        <pre class="bg-dark text-light p-3 rounded mb-0">
+{{ tc.input }}
+                        </pre>
+                    </div>
+
+                    <div>
+                        <h6 class="fw-semibold mb-1">Output esperado</h6>
+                        <pre class="bg-dark text-light p-3 rounded mb-0">
+{{ tc.expected_output }}
+                        </pre>
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        Nenhum caso de teste cadastrado para este problema.
+    </div>
+{% endif %}
+
+{% endblock %}
