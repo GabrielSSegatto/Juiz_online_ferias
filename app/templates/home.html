@@ -75,7 +75,11 @@
         </div>
         <div class="col">
             <div class="surface p-4 h-100 border-0 shadow-sm">
-                <h4 class="text-warning">🏆 Ranking (Em breve)</h4>
+                <h4 class="text-warning">
+                    🏆 <a href="{{ url_for('ranking.get_ranking_controller') }}" class="text-warning text-decoration-none">
+                        Ranking
+                    </a>
+                </h4>
                 <p class="text-muted">Suba de nível resolvendo problemas complexos e compare com seus amigos.</p>
             </div>
         </div>

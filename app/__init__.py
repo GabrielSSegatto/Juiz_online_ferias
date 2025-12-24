@@ -5,6 +5,7 @@ from app.controller.auth_controller import auth_bp  # blueprint auth
 from app.controller.problem_controller import problem_bp
 from app.controller.test_case_controller import test_case_bp
 from app.controller.submission_controller import submission_bp
+from app.controller.ranking_controller import ranking_bp    
 
 def create_app():
     app = Flask(__name__)
@@ -25,6 +26,7 @@ def create_app():
     app.register_blueprint(problem_bp)
     app.register_blueprint(test_case_bp)
     app.register_blueprint(submission_bp)
+    app.register_blueprint(ranking_bp)
 
     @app.route("/")
     def home():
