@@ -61,6 +61,13 @@
                     Ver problema
                 </a>
 
+                {% if session.get('username') %}
+                    <a href="{{ url_for('test_case.create_test_case_controller', problem_id=problem.id) }}"
+                    class="btn btn-outline-secondary mt-2 w-100">
+                        + Caso de teste
+                    </a>
+                {% endif %}
+
             </div>
         </div>
 
