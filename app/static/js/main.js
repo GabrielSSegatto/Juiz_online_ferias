@@ -19,12 +19,14 @@ function toggleTheme() {
     if (currentTheme === "light") {
         html.setAttribute("data-theme", "dark");
         localStorage.setItem("theme", "dark");
-        icon.innerHTML = "🌙"; 
+        icon.innerHTML = "🌙";
     } else {
         html.setAttribute("data-theme", "light");
         localStorage.setItem("theme", "light");
-        icon.innerHTML = "☀️"; 
+        icon.innerHTML = "☀️";
     }
+
+    document.dispatchEvent(new CustomEvent("themechange", { detail: { theme: html.getAttribute("data-theme") } }));
 }
 
 (function() {
