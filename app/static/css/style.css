@@ -262,7 +262,8 @@ pre, code, .font-monospace {
 }
 
 .table > :not(caption) > * > * {
-    background-color: transparent; 
+    color: var(--text-body);
+    background-color: transparent;
     border-bottom-color: var(--border-color);
     padding: 1rem 0.5rem;
 }
