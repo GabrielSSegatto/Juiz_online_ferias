@@ -25,7 +25,10 @@ function toggleTheme() {
         localStorage.setItem("theme", "light");
         icon.className = "bi bi-sun-fill";
     }
+
+    document.dispatchEvent(new CustomEvent("themechange", { detail: { theme: html.getAttribute("data-theme") } }));
 }
+
 
 (function() {
     const savedTheme = localStorage.getItem("theme") || "dark";
