@@ -1,5 +1,5 @@
 def normalize(output: str) -> list[str]:
-    lines = [line.rstrip() for line in output.splitlines()]
+    lines = [line.replace("\x00", "").rstrip() for line in output.splitlines()]
     while lines and lines[-1] == "":
         lines.pop()
     return lines
