@@ -1,0 +1,16 @@
+services:
+  online-judge-web:
+    build: .
+    container_name: online_judge_flask
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/gabriel/projetos/online-judge/instance:/app/instance
+      - /tmp/juiz_runners:/tmp/juiz_runners
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    restart: unless-stopped

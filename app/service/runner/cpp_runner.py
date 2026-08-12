@@ -1,17 +1,21 @@
 import os
 import subprocess
 import tempfile
+import logging
 
 TIMEOUT = 2.5
+BASE_RUNNER_DIR = "/tmp/juiz_runners"
+os.makedirs(BASE_RUNNER_DIR, exist_ok=True)
 
 def run_cpp(code: str, input_data: str = "") -> dict:
-    with tempfile.TemporaryDirectory() as tmp:
+    with tempfile.TemporaryDirectory(dir=BASE_RUNNER_DIR) as tmp:
         path = os.path.join(tmp, "main.cpp")
         binary = os.path.join(tmp, "main")
 
         with open(path, "w") as f:
             f.write(code)
 
+        # Passo 1: Compilação
         compile = subprocess.run(
             [
                 "docker", "run", "--rm",
@@ -20,10 +24,11 @@ def run_cpp(code: str, input_data: str = "") -> dict:
                 "g++", "/app/main.cpp", "-O2", "-o", "/app/main"
             ],
             capture_output=True,
-            text=True   
+            text=True
         )
 
         if compile.returncode != 0:
+            logging.error(f"Erro na compilação (C++): {compile.stderr}")
             return {
                 "stdout": "",
                 "stderr": compile.stderr,
@@ -31,6 +36,7 @@ def run_cpp(code: str, input_data: str = "") -> dict:
                 "status": "RUNTIME_ERROR"
             }
 
+        # Passo 2: Execução
         try:
             proc = subprocess.run(
                 [
@@ -46,6 +52,9 @@ def run_cpp(code: str, input_data: str = "") -> dict:
                 timeout=TIMEOUT
             )
 
+            if proc.returncode != 0:
+                logging.error(f"Erro no Docker Runner (C++): {proc.stderr}")
+
             return {
                 "stdout": proc.stdout,
                 "stderr": proc.stderr,
@@ -59,4 +68,13 @@ def run_cpp(code: str, input_data: str = "") -> dict:
                 "stderr": "Time Limit Exceeded",
                 "exit_code": -1,
                 "status": "TLE"
+            }
+            
+        except Exception as e:
+            logging.error(f"Exceção Crítica no subprocess (C++): {e}")
+            return {
+                "stdout": "",
+                "stderr": str(e),
+                "exit_code": -1,
+                "status": "RUNTIME_ERROR"
             }
