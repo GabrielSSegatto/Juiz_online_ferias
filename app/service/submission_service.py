@@ -6,6 +6,8 @@ from app.service.judge import judge
 from app.service.runner.python_runner import run_python
 from app.service.runner.c_runner import run_c
 from app.service.runner.cpp_runner import run_cpp
+from app.service.runner.java_runner import run_java
+from app.service.runner.csharp_runner import run_csharp
 from app.models.test_case import TestCase
 from app.models.contest import Contest, ContestRegistration
 from app.service.contest_service import is_contest_running, get_brazil_now_naive
@@ -101,6 +103,16 @@ def create_submission(language,user_id,problem_id,code, time_of_submission=None,
         elif language == "cpp":
 
             run_result = run_cpp(code,test.input)
+            result = judge(run_result, test.expected_output)
+
+        elif language == "java":
+
+            run_result = run_java(code,test.input)
+            result = judge(run_result, test.expected_output)
+
+        elif language == "csharp":
+
+            run_result = run_csharp(code,test.input)
             result = judge(run_result, test.expected_output)
 
         else:

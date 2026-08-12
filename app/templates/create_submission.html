@@ -111,7 +111,13 @@
                                     <option value="python">Python</option>
                                     <option value="c">C </option>
                                     <option value="cpp">C++</option>
+                                    <option value="java">Java</option>
+                                    <option value="csharp">C#</option>
                                 </select>
+                                <div class="form-text mt-2" style="color: var(--text-muted);">
+                                    Java deve ser enviado como <span class="font-monospace">Main.java</span> com <span class="font-monospace">public class Main</span>.
+                                    Em C#, use <span class="font-monospace">Program.cs</span> com top-level statements ou uma classe <span class="font-monospace">Program</span> com <span class="font-monospace">Main</span>.
+                                </div>
                             </div>
                         </div>
 
@@ -147,7 +153,9 @@
         var LANGUAGE_MODES = {
             python: "python",
             c: "cpp",
-            cpp: "cpp"
+            cpp: "cpp",
+            java: "java",
+            csharp: "csharp"
         };
 
         var textarea = document.getElementById("code");
