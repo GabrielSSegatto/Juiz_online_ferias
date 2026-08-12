@@ -3,10 +3,11 @@ import subprocess
 import tempfile
 
 TIMEOUT = 2.5
-
+BASE_RUNNER_DIR = "/tmp/juiz_runners"
 
 def run_csharp(code: str, input_data: str = "") -> dict:
-    with tempfile.TemporaryDirectory() as tmp:
+    os.makedirs(BASE_RUNNER_DIR, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=BASE_RUNNER_DIR) as tmp:
         source_path = os.path.join(tmp, "Program.cs")
         project_path = os.path.join(tmp, "Main.csproj")
 
