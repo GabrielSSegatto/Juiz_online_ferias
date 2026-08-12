@@ -1,5 +1,7 @@
 # Juiz Online de Férias
 
+## Para acessar o Site acesse: https://juiz.gabrielssegatto.com.br/ 
+
 Um mini *online judge* inspirado em plataformas como **HackerRank**, **BeeCrowd** e **LeetCode**, desenvolvido como projeto de férias para praticar programação, arquitetura e boas práticas de desenvolvimento.
 
 A plataforma permite que usuários criem contas, escolham problemas, enviem código e vejam o resultado da execução automaticamente.

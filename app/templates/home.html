@@ -17,7 +17,7 @@
             {% if current_user.is_authenticated and current_user.is_admin %}
                 <div class="mb-4">
                     <span class="badge bg-warning border border-warning badge-admin-custom">
-                        👑 Modo Administrador Ativo
+                        <i class="bi bi-shield-lock-fill"></i> Modo Administrador Ativo
                     </span>
                 </div>
             {% endif %}
@@ -90,14 +90,14 @@
     <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
         <div class="col">
             <div class="surface p-4 h-100 border-0 shadow-sm">
-                <h4 class="text-warning">🚀 Rápido e Leve</h4>
+                <h4 class="text-warning"><i class="bi bi-rocket-takeoff-fill"></i> Rápido e Leve</h4>
                 <p class="text-muted">Executor de código otimizado para feedback instantâneo sobre suas soluções.</p>
             </div>
         </div>
         <div class="col">
             <div class="surface p-4 h-100 border-0 shadow-sm">
                 <h4 class="text-warning">
-                    🏆 <a href="{{ url_for('ranking.get_ranking_controller') }}" class="text-warning text-decoration-none">
+                    <i class="bi bi-trophy-fill"></i> <a href="{{ url_for('ranking.get_ranking_controller') }}" class="text-warning text-decoration-none">
                         Ranking
                     </a>
                 </h4>

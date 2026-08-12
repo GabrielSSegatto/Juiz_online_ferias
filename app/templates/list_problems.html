@@ -6,7 +6,7 @@
 <div class="mb-3">
     <a href="{{ url_for('home') }}" 
        class="text-decoration-none d-inline-flex align-items-center gap-2 back-link">
-        <span class="fs-5">←</span> 
+        <span class="fs-5"><i class="bi bi-arrow-left"></i></span>
         <span class="fw-bold small text-uppercase">Voltar para Início</span>
     </a>
 </div>
@@ -65,7 +65,7 @@
 
         <div class="col-md-10">
             <div class="input-group">
-                <span class="input-group-text bg-transparent border-end-0 text-muted">🔍</span>
+                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-search"></i></span>
                 <input
                     type="text"
                     name="search"
@@ -96,7 +96,7 @@
                       style="z-index: 10;"
                       onsubmit="return confirm('Tem certeza que deseja deletar este problema?');">
                     <button type="submit" class="btn btn-sm btn-outline-danger border-0 p-2" title="Deletar Problema">
-                        🗑️
+                        <i class="bi bi-trash"></i>
                     </button>
                 </form>
                 {% endif %}
@@ -157,7 +157,7 @@
     {% else %}
         <div class="col-12">
             <div class="surface p-5 text-center shadow-sm">
-                <div class="fs-1 mb-3">🔍</div>
+                <div class="fs-1 mb-3"><i class="bi bi-search"></i></div>
                 <h4 class="fw-bold">Nenhum problema encontrado</h4>
                 <p class="text-muted">Não achamos problemas com esse filtro.</p>
                 <a href="{{ url_for('problem.list_problems_controller') }}" class="btn btn-outline-secondary mt-2">Limpar Filtros</a>

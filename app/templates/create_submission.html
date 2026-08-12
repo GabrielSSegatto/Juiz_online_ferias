@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Resolver: {{ problem.title }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/monaco/vs/editor/editor.main.css') }}">
+{% endblock %}
+
 {% block content %}
 
 <style>
@@ -9,9 +13,9 @@
         color: var(--text-body);
         border: 1px solid var(--border-color);
     }
-    
+
     .example-container {
-        background-color: var(--bg-body); 
+        background-color: var(--bg-body);
         border: 1px solid var(--border-color);
     }
 
@@ -22,12 +26,11 @@
         font-family: var(--font-code);
     }
 
-    .code-editor {
-        background-color: var(--bg-input) !important;
-        color: var(--text-body) !important;
+    #code-editor-container {
+        height: 50vh;
         border: 1px solid var(--border-color);
-        font-family: var(--font-code);
-        caret-color: var(--primary-color);
+        border-radius: 0.375rem;
+        overflow: hidden;
     }
 
     .form-select, .form-control {
@@ -35,7 +38,7 @@
         color: var(--text-body);
         border-color: var(--border-color);
     }
-    
+
     .form-select:focus, .form-control:focus {
         background-color: var(--bg-input);
         color: var(--text-body);
@@ -51,7 +54,7 @@
             <i class="bi bi-code-square"></i> {{ problem.title }}
         </h2>
         <a href="{{ url_for('problem.list_problems_controller') }}" class="btn btn-outline-secondary btn-sm">
-            ← Lista de Problemas
+            <i class="bi bi-arrow-left"></i> Lista de Problemas
         </a>
     </div>
 
@@ -108,18 +111,24 @@
                                     <option value="python">Python</option>
                                     <option value="c">C </option>
                                     <option value="cpp">C++</option>
+                                    <option value="java">Java</option>
+                                    <option value="csharp">C#</option>
                                 </select>
+                                <div class="form-text mt-2" style="color: var(--text-muted);">
+                                    Java deve ser enviado como <span class="font-monospace">Main.java</span> com <span class="font-monospace">public class Main</span>.
+                                    Em C#, use <span class="font-monospace">Program.cs</span> com top-level statements ou uma classe <span class="font-monospace">Program</span> com <span class="font-monospace">Main</span>.
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-3 flex-grow-1">
                             <label for="code" class="form-label fw-bold small text-uppercase">Seu Código</label>
-                            <textarea 
-                                name="code" 
-                                id="code" 
-                                class="form-control code-editor" 
-                                style="height: 50vh; resize: none;"
-                                placeholder="# Escreva sua solução aqui..." 
+                            <div id="code-editor-container"></div>
+                            <textarea
+                                name="code"
+                                id="code"
+                                class="visually-hidden"
+                                placeholder="# Escreva sua solução aqui..."
                                 required></textarea>
                         </div>
 
@@ -135,4 +144,68 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='vendor/monaco/vs/loader.js') }}"></script>
+<script>
+    (function () {
+        var LANGUAGE_MODES = {
+            python: "python",
+            c: "cpp",
+            cpp: "cpp",
+            java: "java",
+            csharp: "csharp"
+        };
+
+        var textarea = document.getElementById("code");
+        var container = document.getElementById("code-editor-container");
+        var languageSelect = document.getElementById("language");
+        var form = textarea.closest("form");
+
+        function currentTheme() {
+            return document.documentElement.getAttribute("data-theme") === "light" ? "vs" : "vs-dark";
+        }
+
+        window.MonacoEnvironment = {
+            getWorkerUrl: function () {
+                return "{{ url_for('static', filename='vendor/monaco/vs/base/worker/workerMain.js') }}";
+            }
+        };
+
+        require.config({ baseUrl: "{{ url_for('static', filename='vendor/monaco') }}" });
+
+        require(["vs/editor/editor.main"], function () {
+            var editor = monaco.editor.create(container, {
+                value: textarea.value,
+                language: LANGUAGE_MODES[languageSelect.value] || "python",
+                theme: currentTheme(),
+                automaticLayout: true,
+                minimap: { enabled: false },
+                fontFamily: "var(--font-code)",
+                tabSize: 4,
+                insertSpaces: true,
+                autoIndent: "full",
+                matchBrackets: "always",
+                scrollBeyondLastLine: false
+            });
+
+            editor.onDidChangeModelContent(function () {
+                textarea.value = editor.getValue();
+            });
+
+            languageSelect.addEventListener("change", function () {
+                monaco.editor.setModelLanguage(editor.getModel(), LANGUAGE_MODES[languageSelect.value] || "python");
+            });
+
+            form.addEventListener("submit", function () {
+                textarea.value = editor.getValue();
+            });
+
+            document.addEventListener("themechange", function () {
+                monaco.editor.setTheme(currentTheme());
+            });
+        });
+    })();
+</script>
 {% endblock %}
