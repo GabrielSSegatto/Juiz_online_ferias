@@ -11,7 +11,7 @@
     <div class="d-flex gap-2">
         <a href="{{ url_for('problem.get_problem_controller', id=problem.id) }}"
            class="btn btn-outline-secondary">
-            ← Voltar ao problema
+            <i class="bi bi-arrow-left"></i> Voltar ao problema
         </a>
 
         {% if session.get('username') %}

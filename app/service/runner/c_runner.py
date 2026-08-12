@@ -19,14 +19,13 @@ def run_c(code: str, input_data: str = "") -> dict:
                 "juiz-c",
                 "gcc", "/app/main.c", "-O2", "-o", "/app/main"
             ],
-            capture_output=True,
-            text=True   
+            capture_output=True
         )
 
         if compile.returncode != 0:
             return {
                 "stdout": "",
-                "stderr": compile.stderr,
+                "stderr": compile.stderr.decode("utf-8", errors="replace"),
                 "exit_code": compile.returncode,
                 "status": "RUNTIME_ERROR"
             }
@@ -40,15 +39,14 @@ def run_c(code: str, input_data: str = "") -> dict:
                     "juiz-c",
                     "/app/main"
                 ],
-                input=input_data,
+                input=input_data.encode("utf-8"),
                 capture_output=True,
-                text=True,
                 timeout=TIMEOUT
             )
 
             return {
-                "stdout": proc.stdout,
-                "stderr": proc.stderr,
+                "stdout": proc.stdout.decode("utf-8", errors="replace"),
+                "stderr": proc.stderr.decode("utf-8", errors="replace"),
                 "exit_code": proc.returncode,
                 "status": "OK" if proc.returncode == 0 else "RUNTIME_ERROR"
             }

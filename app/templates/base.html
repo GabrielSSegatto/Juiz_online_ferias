@@ -14,9 +14,16 @@
     />
 
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+
+    <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
+
+    {% block extra_css %}{% endblock %}
   </head>
 
   <body class="d-flex flex-column min-vh-100">
@@ -42,7 +49,7 @@
                   onclick="toggleTheme()"
                   class="btn btn-link text-decoration-none btn-theme-toggle"
                 >
-                  <span id="theme-icon">🌙</span>
+                  <i id="theme-icon" class="bi bi-moon-stars-fill"></i>
                 </button>
               </li>
 
@@ -61,7 +68,7 @@
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Admin 🔒
+                      Admin <i class="bi bi-lock-fill"></i>
                     </a>
                     <ul
                       class="dropdown-menu dropdown-menu-end dropdown-admin"
@@ -74,7 +81,7 @@
                           class="dropdown-item"
                           href="{{ url_for('admin.new_problem') }}"
                         >
-                          ➕ Novo Problema
+                          <i class="bi bi-plus-lg"></i> Novo Problema
                         </a>
                       </li>
                       <li>
@@ -82,7 +89,7 @@
                           class="dropdown-item"
                           href="{{ url_for('admin.dashboard') }}"
                         >
-                          📊 Dashboard Admin
+                          <i class="bi bi-speedometer2"></i> Dashboard Admin
                         </a>
                       </li>
                       <li>
@@ -90,7 +97,7 @@
                           class="dropdown-item"
                           href="{{ url_for('contest.create_contest_controller') }}"
                         >
-                          🏆 Criar Contest
+                          <i class="bi bi-trophy-fill"></i> Criar Contest
                         </a>
                       </li>
                     </ul>

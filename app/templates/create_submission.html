@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Resolver: {{ problem.title }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendor/monaco/vs/editor/editor.main.css') }}">
+{% endblock %}
+
 {% block content %}
 
 <style>
@@ -9,9 +13,9 @@
         color: var(--text-body);
         border: 1px solid var(--border-color);
     }
-    
+
     .example-container {
-        background-color: var(--bg-body); 
+        background-color: var(--bg-body);
         border: 1px solid var(--border-color);
     }
 
@@ -22,12 +26,11 @@
         font-family: var(--font-code);
     }
 
-    .code-editor {
-        background-color: var(--bg-input) !important;
-        color: var(--text-body) !important;
+    #code-editor-container {
+        height: 50vh;
         border: 1px solid var(--border-color);
-        font-family: var(--font-code);
-        caret-color: var(--primary-color);
+        border-radius: 0.375rem;
+        overflow: hidden;
     }
 
     .form-select, .form-control {
@@ -35,7 +38,7 @@
         color: var(--text-body);
         border-color: var(--border-color);
     }
-    
+
     .form-select:focus, .form-control:focus {
         background-color: var(--bg-input);
         color: var(--text-body);
@@ -51,7 +54,7 @@
             <i class="bi bi-code-square"></i> {{ problem.title }}
         </h2>
         <a href="{{ url_for('problem.list_problems_controller') }}" class="btn btn-outline-secondary btn-sm">
-            ← Lista de Problemas
+            <i class="bi bi-arrow-left"></i> Lista de Problemas
         </a>
     </div>
 
@@ -120,12 +123,12 @@
 
                         <div class="mb-3 flex-grow-1">
                             <label for="code" class="form-label fw-bold small text-uppercase">Seu Código</label>
-                            <textarea 
-                                name="code" 
-                                id="code" 
-                                class="form-control code-editor" 
-                                style="height: 50vh; resize: none;"
-                                placeholder="# Escreva sua solução aqui..." 
+                            <div id="code-editor-container"></div>
+                            <textarea
+                                name="code"
+                                id="code"
+                                class="visually-hidden"
+                                placeholder="# Escreva sua solução aqui..."
                                 required></textarea>
                         </div>
 
@@ -141,8 +144,6 @@
     </div>
 </div>
 
-<<<<<<< Updated upstream
-=======
 {% endblock %}
 
 {% block scripts %}
@@ -207,5 +208,4 @@
         });
     })();
 </script>
->>>>>>> Stashed changes
 {% endblock %}

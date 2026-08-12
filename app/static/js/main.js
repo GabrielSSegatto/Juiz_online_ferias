@@ -19,13 +19,16 @@ function toggleTheme() {
     if (currentTheme === "light") {
         html.setAttribute("data-theme", "dark");
         localStorage.setItem("theme", "dark");
-        icon.innerHTML = "🌙"; 
+        icon.className = "bi bi-moon-stars-fill";
     } else {
         html.setAttribute("data-theme", "light");
         localStorage.setItem("theme", "light");
-        icon.innerHTML = "☀️"; 
+        icon.className = "bi bi-sun-fill";
     }
+
+    document.dispatchEvent(new CustomEvent("themechange", { detail: { theme: html.getAttribute("data-theme") } }));
 }
+
 
 (function() {
     const savedTheme = localStorage.getItem("theme") || "dark";
